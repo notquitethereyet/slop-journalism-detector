@@ -48,8 +48,8 @@ The Slop Detector analyzes web content through several sophisticated steps:
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/notquitethereyet/slop-detector.git
-cd slop-detector
+git clone https://github.com/notquitethereyet/slop-journalism-detector.git
+cd slop-journalism-detector
 ```
 
 2. Set up the backend:
