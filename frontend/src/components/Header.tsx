@@ -7,7 +7,7 @@ const Header: React.FC = () => {
       <div className="flex items-center justify-center space-x-3 mb-3">
         <HiOutlineSparkles className="w-8 h-8 text-tokyo-terminal-cyan" />
         <h1 className="text-4xl font-bold text-tokyo-terminal-cyan">
-          ClickBuster
+          Slop Detector
         </h1>
       </div>
       <p className="text-tokyo-fg-dark max-w-xl mx-auto">

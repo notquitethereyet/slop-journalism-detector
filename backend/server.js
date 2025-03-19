@@ -237,15 +237,32 @@ app.post('/api/analyze', async (req, res) => {
     const summary = summaryResponse.summary || "No summary available";
     console.log(`Summary generated successfully`);
     
+    // Check if the summary explicitly states it's not clickbait
+    const notClickbaitIndicators = [
+      "no, the title accurately reflects",
+      "the title accurately reflects",
+      "not clickbait",
+      "title is accurate",
+      "title accurately describes"
+    ];
+    
     // Use the clickbaitDetermination as an additional signal for the algorithm
     const isDeepSeekClickbait = summaryResponse.clickbaitDetermination?.toLowerCase().includes('clickbait') || false;
+    const hasNotClickbaitIndicator = notClickbaitIndicators.some(indicator => 
+      summary.toLowerCase().includes(indicator.toLowerCase())
+    );
     
     // Use enhanced content quality evaluation
     const contentAnalysis = evaluateContentQuality(scrapedContent, summary);
     console.log(`Content analyzed successfully`);
     
-    // Add the DeepSeek clickbait signal to the evaluation
-    contentAnalysis.isClickbait = contentAnalysis.isClickbait || isDeepSeekClickbait;
+    // Override clickbait determination if the summary explicitly states it's not clickbait
+    if (hasNotClickbaitIndicator) {
+      contentAnalysis.isClickbait = false;
+    } else {
+      // Otherwise use the DeepSeek clickbait signal to enhance the evaluation
+      contentAnalysis.isClickbait = contentAnalysis.isClickbait || isDeepSeekClickbait;
+    }
     
     // Enhance response with additional context
     let contentWarning = null;
